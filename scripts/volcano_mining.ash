@@ -320,8 +320,12 @@ void updateHeatmapFromSpot(Spot startSpot) {
 
 void parseMine() {
 	//string page = visit_url("place.php?whichplace=desertbeach&action=db_crimbo14mine");
-	if ((have_effect($effect[object detection]) == 0) && (AUTO_UP_DETECTION == true))
+	if ((have_effect($effect[object detection]) == 0) && (AUTO_UP_DETECTION == true)) {
 		cli_execute("use potion of detection");
+		if (have_effect($effect[object detection]) == 0) {
+			abort("Potion effect cache out of date.  Please re-spade then relog.");
+		}
+	}
 	buffer page = visit_url("mining.php?mine=6");
 	if (page.contains_text("way too beaten up")) {
 		restoreMinHP();
